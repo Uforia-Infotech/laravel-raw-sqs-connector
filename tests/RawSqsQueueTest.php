@@ -212,18 +212,20 @@ class RawSqsQueueTest extends TestCase
             'default',
             'prefix'
         ])
-            ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
         $rawSqsQueue
+            ->shouldAllowMockingProtectedMethods()
             ->shouldReceive('hasRemainingAttempts')
             ->andReturn(false);
 
         $rawSqsQueue
+            ->shouldAllowMockingProtectedMethods()
             ->shouldReceive('log')
             ->once();
 
         $rawSqsQueue
+            ->shouldAllowMockingProtectedMethods()
             ->shouldNotReceive('querySqs');
 
         $container = Mockery::mock(Container::class);
