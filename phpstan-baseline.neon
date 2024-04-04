@@ -21,11 +21,6 @@ parameters:
 			path: src/RawSqsJob.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:hasRemainingAttempts\\(\\) should return bool but returns mixed\\.$#"
-			count: 1
-			path: src/RawSqsQueue.php
-
-		-
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:log\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
@@ -57,11 +52,6 @@ parameters:
 
 		-
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/RawSqsQueue.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$rateLimit with type string is incompatible with native type int\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
 

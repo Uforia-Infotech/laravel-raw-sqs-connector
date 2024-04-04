@@ -73,7 +73,7 @@ class RawSqsQueue extends SqsQueue
         Log::info($text, $context);
     }
 
-    protected function hasRemainingAttempts(string $key): bool
+    protected function hasRemainingAttempts(string $key): mixed
     {
         return RateLimiter::attempt(
             $key,
@@ -146,7 +146,7 @@ class RawSqsQueue extends SqsQueue
     }
 
     /**
-     * @param string $rateLimit
+     * @param int $rateLimit
      * @return $this
      */
     public function setRateLimit(int $rateLimit): static
