@@ -21,12 +21,12 @@ parameters:
 			path: src/RawSqsJob.php
 
 		-
-			message: "#^Cannot access offset 'Body' on mixed\\.$#"
-			count: 2
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:hasRemainingAttempts\\(\\) should return bool but returns mixed\\.$#"
+			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Cannot access offset 0 on mixed\\.$#"
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:log\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
 
@@ -36,16 +36,36 @@ parameters:
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, mixed given\\.$#"
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type Aws\\\\Result\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Parameter \\#1 \\$value of function count expects array\\|Countable, mixed given\\.$#"
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Parameter \\#3 \\$job of class Illuminate\\\\Queue\\\\Jobs\\\\SqsJob constructor expects array, mixed given\\.$#"
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type array\\|Aws\\\\Result\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type Aws\\\\Result\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$rateLimit with type string is incompatible with native type int\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Parameter \\#2 \\$maxAttempts of static method Illuminate\\\\Support\\\\Facades\\\\RateLimiter\\:\\:attempt\\(\\) expects int, int\\|null given\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
