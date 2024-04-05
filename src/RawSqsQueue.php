@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class RawSqsQueue extends SqsQueue
 {
     protected string $jobClass;
-    protected mixed $rateLimit = null;
+    protected ?int $rateLimit = null;
 
     public function pop($queue = null): SqsJob|Job|null
     {
@@ -75,6 +75,9 @@ class RawSqsQueue extends SqsQueue
 
     protected function hasRemainingAttempts(string $key): mixed
     {
+        /** @var int $limit */
+        $limit = $this->rateLimit;
+
         return RateLimiter::attempt(
             $key,
             $this->rateLimit,
@@ -146,10 +149,10 @@ class RawSqsQueue extends SqsQueue
     }
 
     /**
-     * @param int|callable $rateLimit
+     * @param int $rateLimit
      * @return $this
      */
-    public function setRateLimit(int|callable $rateLimit): static
+    public function setRateLimit(int $rateLimit): static
     {
         $this->rateLimit = $rateLimit;
         return $this;
