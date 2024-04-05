@@ -48,7 +48,7 @@ class RawSqsQueue extends SqsQueue
 
     protected function receiveMessage(string $queue): Result|array|null
     {
-        if ($this->rateLimit === null) {
+        if ($this->getRateLimit() === null) {
             return $this->querySqs($queue);
         }
 
@@ -76,11 +76,11 @@ class RawSqsQueue extends SqsQueue
     protected function hasRemainingAttempts(string $key): mixed
     {
         /** @var int $limit */
-        $limit = $this->rateLimit;
+        $limit = $this->getRateLimit();
 
         return RateLimiter::attempt(
             $key,
-            $this->rateLimit,
+            $limit,
             fn () => true,
         );
     }
@@ -129,13 +129,20 @@ class RawSqsQueue extends SqsQueue
         throw new InvalidPayloadException('later is not permitted for raw-sqs connector');
     }
 
-
     /**
      * @return string
      */
     public function getJobClass(): string
     {
         return $this->jobClass;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getRateLimit(): ?int
+    {
+        return $this->rateLimit;
     }
 
     /**

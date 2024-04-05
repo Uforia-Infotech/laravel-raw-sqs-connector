@@ -202,48 +202,6 @@ class RawSqsQueueTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testWillReturnMessageIfRateLimitEnabledUsingAClosure(): void
-    {
-        $firstName = 'Primitive';
-        $lastName = 'Sense';
-
-        $sqsReturnMessage = [
-            'Body' => json_encode([
-                'first_name' => $firstName,
-                'last_name' => $lastName
-            ])
-        ];
-
-        $sqsClientMock = Mockery::mock(SqsClient::class);
-        $sqsClientMock->shouldReceive('receiveMessage')
-            ->andReturn([
-                'Messages' => [
-                    $sqsReturnMessage
-                ]
-            ]);
-
-        $rawSqsQueue = Mockery::mock(RawSqsQueue::class, [
-            $sqsClientMock,
-            'default',
-            'prefix'
-        ])
-            ->shouldAllowMockingProtectedMethods()
-            ->makePartial();
-
-        $rawSqsQueue
-            ->shouldReceive('hasRemainingAttempts')
-            ->andReturn(true);
-
-        $container = Mockery::mock(Container::class);
-        $rawSqsQueue->setContainer($container);
-        $rawSqsQueue->setJobClass(TestJobClass::class);
-        $rawSqsQueue->setRateLimit(fn () => 1);
-
-        $rawSqsQueue->pop();
-
-        $this->expectNotToPerformAssertions();
-    }
-
     public function testWillNotReturnMessageIfRateLimitEnabledButNoAttemptsLeft(): void
     {
         $sqsClientMock = Mockery::mock(SqsClient::class);

@@ -54,8 +54,3 @@ parameters:
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
-
-		-
-			message: "#^Parameter \\#2 \\$maxAttempts of static method Illuminate\\\\Support\\\\Facades\\\\RateLimiter\\:\\:attempt\\(\\) expects int, int\\|null given\\.$#"
-			count: 1
-			path: src/RawSqsQueue.php
