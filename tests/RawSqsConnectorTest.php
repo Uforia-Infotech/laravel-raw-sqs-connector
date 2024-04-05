@@ -26,6 +26,42 @@ class RawSqsConnectorTest extends TestCase
         $this->assertInstanceOf(RawSqsQueue::class, $rawSqsQueue);
     }
 
+    public function testCanSpecifyAnIntegerRateLimit(): void
+    {
+        $rawSqsConnector = new RawSqsConnector();
+
+        $config = [
+            'key' => 'key',
+            'secret' => 'secret',
+            'region' => 'eu-west-2',
+            'queue' => 'raw-sqs',
+            'job_class' => TestJobClass::class,
+            'rate_limit' => 1
+        ];
+
+        $rawSqsQueue = $rawSqsConnector->connect($config);
+
+        $this->assertEquals(1, $rawSqsQueue->getRateLimit());
+    }
+
+    public function testCanSpecifyACallableRateLimit(): void
+    {
+        $rawSqsConnector = new RawSqsConnector();
+
+        $config = [
+            'key' => 'key',
+            'secret' => 'secret',
+            'region' => 'eu-west-2',
+            'queue' => 'raw-sqs',
+            'job_class' => TestJobClass::class,
+            'rate_limit' => fn () => 1
+        ];
+
+        $rawSqsQueue = $rawSqsConnector->connect($config);
+
+        $this->assertEquals(1, $rawSqsQueue->getRateLimit());
+    }
+
     public function testShouldThrowInvalidArgumentExceptionIfClassDoesNotExist(): void
     {
         $this->expectException(\InvalidArgumentException::class);

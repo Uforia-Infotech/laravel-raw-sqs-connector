@@ -2,23 +2,27 @@
 
 namespace AgentSoftware\LaravelRawSqsConnector;
 
+use Aws\Result;
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class RawSqsQueue extends SqsQueue
 {
     protected string $jobClass;
+    protected ?int $rateLimit = null;
 
     public function pop($queue = null): SqsJob|Job|null
     {
-        $response = $this->sqs->receiveMessage([
-            'QueueUrl' => $queue = $this->getQueue($queue),
-            'AttributeNames' => ['All'],
-        ]);
+        $queue = $this->getQueue($queue);
 
-        if (!is_null($response['Messages']) && count($response['Messages']) > 0) {
+        $response = $this->receiveMessage($queue);
+
+        if ($response !== null && !is_null($response['Messages']) && count($response['Messages']) > 0) {
             $message = $response['Messages'][0];
 
             $jobBody = json_decode($message['Body'], true);
@@ -30,7 +34,6 @@ class RawSqsQueue extends SqsQueue
             $payload = $this->createPayload($captureJob, $queue, $jobBody);
             $message['Body'] = $payload;
 
-
             return new SqsJob(
                 $this->container,
                 $this->sqs,
@@ -41,6 +44,53 @@ class RawSqsQueue extends SqsQueue
         }
 
         return null;
+    }
+
+    protected function receiveMessage(string $queue): Result|array|null
+    {
+        if ($this->getRateLimit() === null) {
+            return $this->querySqs($queue);
+        }
+
+        $key = 'sqs:' . Str::slug($this->jobClass);
+
+        $remainingAttempts = $this->hasRemainingAttempts($key);
+
+        if ($remainingAttempts) {
+            return $this->querySqs($queue);
+        }
+
+        $this->log('Rate limit hit for SQS queue worker', [
+            'queue' => $queue,
+            'key' => $key
+        ]);
+
+        return null;
+    }
+
+    protected function log(string $text, array $context = []): void
+    {
+        Log::info($text, $context);
+    }
+
+    protected function hasRemainingAttempts(string $key): mixed
+    {
+        /** @var int $limit */
+        $limit = $this->getRateLimit();
+
+        return RateLimiter::attempt(
+            $key,
+            $limit,
+            fn () => true,
+        );
+    }
+
+    protected function querySqs(string $queue): Result|array
+    {
+        return $this->sqs->receiveMessage([
+            'QueueUrl' => $queue,
+            'AttributeNames' => ['All'],
+        ]);
     }
 
     /**
@@ -79,7 +129,6 @@ class RawSqsQueue extends SqsQueue
         throw new InvalidPayloadException('later is not permitted for raw-sqs connector');
     }
 
-
     /**
      * @return string
      */
@@ -89,12 +138,30 @@ class RawSqsQueue extends SqsQueue
     }
 
     /**
+     * @return int|null
+     */
+    public function getRateLimit(): ?int
+    {
+        return $this->rateLimit;
+    }
+
+    /**
      * @param string $jobClass
      * @return $this
      */
     public function setJobClass(string $jobClass): static
     {
         $this->jobClass = $jobClass;
+        return $this;
+    }
+
+    /**
+     * @param int $rateLimit
+     * @return $this
+     */
+    public function setRateLimit(int $rateLimit): static
+    {
+        $this->rateLimit = $rateLimit;
         return $this;
     }
 }
