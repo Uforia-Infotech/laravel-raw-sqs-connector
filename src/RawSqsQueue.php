@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class RawSqsQueue extends SqsQueue
 {
     protected string $jobClass;
-    protected ?int $rateLimit = null;
+    protected mixed $rateLimit = null;
 
     public function pop($queue = null): SqsJob|Job|null
     {
@@ -146,10 +146,10 @@ class RawSqsQueue extends SqsQueue
     }
 
     /**
-     * @param int $rateLimit
+     * @param int|callable $rateLimit
      * @return $this
      */
-    public function setRateLimit(int $rateLimit): static
+    public function setRateLimit(int|callable $rateLimit): static
     {
         $this->rateLimit = $rateLimit;
         return $this;
