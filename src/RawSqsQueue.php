@@ -85,12 +85,12 @@ class RawSqsQueue extends SqsQueue
         );
     }
 
-    protected function getRateLimiter()
+    protected function getRateLimiter(): mixed
     {
         return $this->getContainer()->make(RateLimiter::class);
     }
 
-    protected function querySqs(string $queue): Result|array
+    protected function querySqs(string $queue): array|Result|null
     {
         return $this->sqs->receiveMessage([
             'QueueUrl' => $queue,

@@ -21,6 +21,11 @@ parameters:
 			path: src/RawSqsJob.php
 
 		-
+			message: "#^Cannot call method attempt\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:log\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
@@ -41,16 +46,16 @@ parameters:
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type array\\|Aws\\\\Result\\.$#"
-			count: 1
-			path: src/RawSqsQueue.php
-
-		-
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type Aws\\\\Result\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
 			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) should return array\\|Aws\\\\Result\\|null but returns mixed\\.$#"
 			count: 1
 			path: src/RawSqsQueue.php
