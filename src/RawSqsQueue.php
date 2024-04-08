@@ -8,8 +8,8 @@ use Illuminate\Queue\InvalidPayloadException;
 use Illuminate\Queue\Jobs\SqsJob;
 use Illuminate\Queue\SqsQueue;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Illuminate\Cache\RateLimiter;
 
 class RawSqsQueue extends SqsQueue
 {
@@ -54,10 +54,10 @@ class RawSqsQueue extends SqsQueue
 
         $key = 'sqs:' . Str::slug($this->jobClass);
 
-        $remainingAttempts = $this->hasRemainingAttempts($key);
+        $attempt = $this->attempt($key, $queue);
 
-        if ($remainingAttempts) {
-            return $this->querySqs($queue);
+        if ($attempt !== false) {
+            return $attempt;
         }
 
         $this->log('Rate limit hit for SQS queue worker', [
@@ -73,19 +73,24 @@ class RawSqsQueue extends SqsQueue
         Log::info($text, $context);
     }
 
-    protected function hasRemainingAttempts(string $key): mixed
+    protected function attempt(string $key, string $queue): mixed
     {
         /** @var int $limit */
         $limit = $this->getRateLimit();
 
-        return RateLimiter::attempt(
+        return $this->getRateLimiter()->attempt(
             $key,
             $limit,
-            fn () => true,
+            fn () => $this->querySqs($queue),
         );
     }
 
-    protected function querySqs(string $queue): Result|array
+    protected function getRateLimiter(): mixed
+    {
+        return $this->getContainer()->make(RateLimiter::class);
+    }
+
+    protected function querySqs(string $queue): array|Result|null
     {
         return $this->sqs->receiveMessage([
             'QueueUrl' => $queue,

@@ -5,11 +5,11 @@ namespace Tests;
 use Aws\Sqs\SqsClient;
 use Illuminate\Container\Container;
 use Illuminate\Queue\InvalidPayloadException;
-use Illuminate\Support\Facades\RateLimiter;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
 use Tests\Support\TestJobClass;
+use Illuminate\Cache\RateLimiter;
 
 class RawSqsQueueTest extends TestCase
 {
@@ -136,6 +136,7 @@ class RawSqsQueueTest extends TestCase
         ];
 
         $sqsClientMock = Mockery::mock(SqsClient::class);
+
         $sqsClientMock->shouldReceive('receiveMessage')
             ->andReturn([
                 'Messages' => [
@@ -143,7 +144,7 @@ class RawSqsQueueTest extends TestCase
                 ]
             ]);
 
-        $sqsClientMock->shouldNotReceive('hasRemainingAttempts');
+        $sqsClientMock->shouldNotReceive('attempt');
 
         $rawSqsQueue = new RawSqsQueue(
             $sqsClientMock,
@@ -173,26 +174,29 @@ class RawSqsQueueTest extends TestCase
         ];
 
         $sqsClientMock = Mockery::mock(SqsClient::class);
-        $sqsClientMock->shouldReceive('receiveMessage')
+
+        $rawSqsQueue = new RawSqsQueue(
+            $sqsClientMock,
+            'default',
+            'prefix'
+        );
+
+        $rateLimiter = Mockery::mock(RateLimiter::class);
+
+        $rateLimiter->shouldReceive('attempt')
+            ->once()
             ->andReturn([
                 'Messages' => [
                     $sqsReturnMessage
                 ]
             ]);
 
-        $rawSqsQueue = Mockery::mock(RawSqsQueue::class, [
-            $sqsClientMock,
-            'default',
-            'prefix'
-        ])
-            ->shouldAllowMockingProtectedMethods()
-            ->makePartial();
-
-        $rawSqsQueue
-            ->shouldReceive('hasRemainingAttempts')
-            ->andReturn(true);
-
         $container = Mockery::mock(Container::class);
+
+        $container->shouldReceive('make')
+            ->once()
+            ->andReturn($rateLimiter);
+
         $rawSqsQueue->setContainer($container);
         $rawSqsQueue->setJobClass(TestJobClass::class);
         $rawSqsQueue->setRateLimit(1);
@@ -202,33 +206,32 @@ class RawSqsQueueTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testWillNotReturnMessageIfRateLimitEnabledButNoAttemptsLeft(): void
+    public function testWillNotReturnMessageIfRateLimitHit(): void
     {
         $sqsClientMock = Mockery::mock(SqsClient::class);
-        $sqsClientMock->shouldNotReceive('receiveMessage');
 
         $rawSqsQueue = Mockery::mock(RawSqsQueue::class, [
             $sqsClientMock,
             'default',
             'prefix'
-        ])
-            ->makePartial();
+        ])->makePartial();
 
-        $rawSqsQueue
-            ->shouldAllowMockingProtectedMethods()
-            ->shouldReceive('hasRemainingAttempts')
-            ->andReturn(false);
-
-        $rawSqsQueue
-            ->shouldAllowMockingProtectedMethods()
+        $rawSqsQueue->shouldAllowMockingProtectedMethods()
             ->shouldReceive('log')
             ->once();
 
-        $rawSqsQueue
-            ->shouldAllowMockingProtectedMethods()
-            ->shouldNotReceive('querySqs');
+        $rateLimiter = Mockery::mock(RateLimiter::class);
+
+        $rateLimiter->shouldReceive('attempt')
+            ->once()
+            ->andReturn(false);
 
         $container = Mockery::mock(Container::class);
+
+        $container->shouldReceive('make')
+            ->once()
+            ->andReturn($rateLimiter);
+
         $rawSqsQueue->setContainer($container);
         $rawSqsQueue->setJobClass(TestJobClass::class);
         $rawSqsQueue->setRateLimit(1);
