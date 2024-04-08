@@ -54,10 +54,10 @@ class RawSqsQueue extends SqsQueue
 
         $key = 'sqs:' . Str::slug($this->jobClass);
 
-        $remainingAttempts = $this->attempt($key, $queue);
+        $attempt = $this->attempt($key, $queue);
 
-        if ($remainingAttempts !== false) {
-            return $remainingAttempts;
+        if ($attempt !== false) {
+            return $attempt;
         }
 
         $this->log('Rate limit hit for SQS queue worker', [
