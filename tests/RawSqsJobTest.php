@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
 use AgentSoftware\LaravelRawSqsConnector\RawSqsJob;
+use PHPUnit\Framework\TestCase;
 
 class RawSqsJobTest extends TestCase
 {
-    public function testGettersSetters(): void
+    public function test_getters_setters(): void
     {
         $data = ['first_name' => 'Primitive'];
         $rawSqsJob = new RawSqsJob($data);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AgentSoftware\LaravelRawSqsConnector;
 
 use Aws\Sqs\SqsClient;
@@ -15,15 +17,15 @@ class RawSqsConnector implements ConnectorInterface
     {
         $config = $this->getDefaultConfiguration($config);
 
-        if (!class_exists($config['job_class'])) {
+        if (! class_exists($config['job_class'])) {
             throw new \InvalidArgumentException(
-                'Raw SQS Connector - class ' . $config['job_class'] . ' does not exist'
+                'Raw SQS Connector - class '.$config['job_class'].' does not exist'
             );
         }
 
-        if (!is_subclass_of($config['job_class'], RawSqsJob::class)) {
+        if (! is_subclass_of($config['job_class'], RawSqsJob::class)) {
             throw new \InvalidArgumentException(
-                'Raw SQS Connector - ' . $config['job_class'] . ' must be a subclass of ' . RawSqsJob::class
+                'Raw SQS Connector - '.$config['job_class'].' must be a subclass of '.RawSqsJob::class
             );
         }
 

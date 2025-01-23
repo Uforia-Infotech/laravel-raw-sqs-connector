@@ -1,61 +1,133 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:connect\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Binary operation "\." between ''Raw SQS Connector \-…'' and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 1
 			path: src/RawSqsConnector.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:getDefaultConfiguration\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsConnector\:\:connect\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsConnector.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsConnector\\:\\:getDefaultConfiguration\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsConnector\:\:getDefaultConfiguration\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsConnector.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsJob\\:\\:__construct\\(\\) has parameter \\$data with no type specified\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsConnector\:\:getDefaultConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: '#^Parameter \#1 \$class of function class_exists expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: '#^Parameter \#1 \$rateLimit of method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:setRateLimit\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: '#^Parameter \#2 \$default of class AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: '#^Parameter \#3 \$prefix of class AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsConnector.php
+
+		-
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsJob\:\:__construct\(\) has parameter \$data with no type specified\.$#'
+			identifier: missingType.parameter
 			count: 1
 			path: src/RawSqsJob.php
 
 		-
-			message: "#^Cannot call method attempt\\(\\) on mixed\\.$#"
+			message: '#^Cannot access offset ''Body'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/RawSqsQueue.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:log\\(\\) has parameter \\$context with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method attempt\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:pushRaw\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:log\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type Aws\\\\Result\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:pushRaw\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:querySqs\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:querySqs\(\) return type has no value type specified in iterable type Aws\\Result\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type Aws\\\\Result\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:querySqs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:receiveMessage\(\) return type has no value type specified in iterable type Aws\\Result\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: src/RawSqsQueue.php
 
 		-
-			message: "#^Method AgentSoftware\\\\LaravelRawSqsConnector\\\\RawSqsQueue\\:\\:receiveMessage\\(\\) should return array\\|Aws\\\\Result\\|null but returns mixed\\.$#"
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:receiveMessage\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: '#^Method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:receiveMessage\(\) should return array\|Aws\\Result\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/RawSqsQueue.php
+
+		-
+			message: '#^Parameter \#3 \$job of class Illuminate\\Queue\\Jobs\\SqsJob constructor expects array, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/RawSqsQueue.php

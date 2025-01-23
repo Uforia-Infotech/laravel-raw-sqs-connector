@@ -2,18 +2,18 @@
 
 namespace Tests;
 
+use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
 use Aws\Sqs\SqsClient;
+use Illuminate\Cache\RateLimiter;
 use Illuminate\Container\Container;
 use Illuminate\Queue\InvalidPayloadException;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
 use Tests\Support\TestJobClass;
-use Illuminate\Cache\RateLimiter;
 
 class RawSqsQueueTest extends TestCase
 {
-    public function testPopShouldReturnNewSqsJob(): void
+    public function test_pop_should_return_new_sqs_job(): void
     {
         $firstName = 'Primitive';
         $lastName = 'Sense';
@@ -21,18 +21,17 @@ class RawSqsQueueTest extends TestCase
         $sqsReturnMessage = [
             'Body' => json_encode([
                 'first_name' => $firstName,
-                'last_name' => $lastName
-            ])
+                'last_name' => $lastName,
+            ]),
         ];
 
         $sqsClientMock = Mockery::mock(SqsClient::class);
         $sqsClientMock->shouldReceive('receiveMessage')
             ->andReturn([
                 'Messages' => [
-                    $sqsReturnMessage
-                ]
+                    $sqsReturnMessage,
+                ],
             ]);
-
 
         $rawSqsQueue = new RawSqsQueue(
             $sqsClientMock,
@@ -54,14 +53,13 @@ class RawSqsQueueTest extends TestCase
         $this->assertSame($testJob->data['last_name'], $lastName);
     }
 
-    public function testPopShouldReturnNullIfMessagesAreNull(): void
+    public function test_pop_should_return_null_if_messages_are_null(): void
     {
         $sqsClientMock = Mockery::mock(SqsClient::class);
         $sqsClientMock->shouldReceive('receiveMessage')
             ->andReturn([
-                'Messages' => null
+                'Messages' => null,
             ]);
-
 
         $rawSqsQueue = new RawSqsQueue(
             $sqsClientMock,
@@ -75,7 +73,7 @@ class RawSqsQueueTest extends TestCase
         $this->assertNull($rawSqsQueue->pop());
     }
 
-    public function testPushShouldthrowInvalidPayLoadException(): void
+    public function test_push_shouldthrow_invalid_pay_load_exception(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('push is not permitted for raw-sqs connector');
@@ -91,7 +89,7 @@ class RawSqsQueueTest extends TestCase
         $rawSqsQueue->push(null, null, null);
     }
 
-    public function testPushRawShouldThrowInvalidPayLoadException(): void
+    public function test_push_raw_should_throw_invalid_pay_load_exception(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('pushRaw is not permitted for raw-sqs connector');
@@ -107,7 +105,7 @@ class RawSqsQueueTest extends TestCase
         $rawSqsQueue->pushRaw(null, null, []);
     }
 
-    public function testLaterShouldThrowInvalidPayLoadException(): void
+    public function test_later_should_throw_invalid_pay_load_exception(): void
     {
         $this->expectException(InvalidPayloadException::class);
         $this->expectExceptionMessage('later is not permitted for raw-sqs connector');
@@ -123,7 +121,7 @@ class RawSqsQueueTest extends TestCase
         $rawSqsQueue->later(null, null);
     }
 
-    public function testDoesNotUseRateLimiterIfRateLimitNotSpecified(): void
+    public function test_does_not_use_rate_limiter_if_rate_limit_not_specified(): void
     {
         $firstName = 'Primitive';
         $lastName = 'Sense';
@@ -131,8 +129,8 @@ class RawSqsQueueTest extends TestCase
         $sqsReturnMessage = [
             'Body' => json_encode([
                 'first_name' => $firstName,
-                'last_name' => $lastName
-            ])
+                'last_name' => $lastName,
+            ]),
         ];
 
         $sqsClientMock = Mockery::mock(SqsClient::class);
@@ -140,8 +138,8 @@ class RawSqsQueueTest extends TestCase
         $sqsClientMock->shouldReceive('receiveMessage')
             ->andReturn([
                 'Messages' => [
-                    $sqsReturnMessage
-                ]
+                    $sqsReturnMessage,
+                ],
             ]);
 
         $sqsClientMock->shouldNotReceive('attempt');
@@ -161,7 +159,7 @@ class RawSqsQueueTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testWillReturnMessageIfRateLimitEnabled(): void
+    public function test_will_return_message_if_rate_limit_enabled(): void
     {
         $firstName = 'Primitive';
         $lastName = 'Sense';
@@ -169,8 +167,8 @@ class RawSqsQueueTest extends TestCase
         $sqsReturnMessage = [
             'Body' => json_encode([
                 'first_name' => $firstName,
-                'last_name' => $lastName
-            ])
+                'last_name' => $lastName,
+            ]),
         ];
 
         $sqsClientMock = Mockery::mock(SqsClient::class);
@@ -187,8 +185,8 @@ class RawSqsQueueTest extends TestCase
             ->once()
             ->andReturn([
                 'Messages' => [
-                    $sqsReturnMessage
-                ]
+                    $sqsReturnMessage,
+                ],
             ]);
 
         $container = Mockery::mock(Container::class);
@@ -206,14 +204,14 @@ class RawSqsQueueTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    public function testWillNotReturnMessageIfRateLimitHit(): void
+    public function test_will_not_return_message_if_rate_limit_hit(): void
     {
         $sqsClientMock = Mockery::mock(SqsClient::class);
 
         $rawSqsQueue = Mockery::mock(RawSqsQueue::class, [
             $sqsClientMock,
             'default',
-            'prefix'
+            'prefix',
         ])->makePartial();
 
         $rawSqsQueue->shouldAllowMockingProtectedMethods()
