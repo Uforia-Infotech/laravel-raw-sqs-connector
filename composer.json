@@ -12,8 +12,8 @@
         "php": ">=8.2",
         "ext-json": "*",
         "aws/aws-sdk-php": "^3.2",
-        "illuminate/cache": "^8 || ^9 || ^10 || ^11",
-        "illuminate/queue": "^8 || ^9 || ^10 || ^11"
+        "illuminate/cache": "^8 || ^9 || ^10 || ^11 || ^12",
+        "illuminate/queue": "^8 || ^9 || ^10 || ^11 || ^12"
     },
     "autoload": {
         "psr-4": {
