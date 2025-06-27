@@ -44,5 +44,12 @@
             "@test:lint",
             "@test:types"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AgentSoftware\\LaravelRawSqsConnector\\RawSqsServiceProvider"
+            ]
+        }
     }
 }
