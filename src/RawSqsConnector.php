@@ -44,7 +44,6 @@ class RawSqsConnector implements ConnectorInterface
         }
 
         if (Arr::get($config, 'rate_limit')) {
-            /** @var int|string|callable * */
             $limit = $config['rate_limit'];
             $limit = is_callable($limit) ? $limit() : $limit;
             $rawSqsQueue->setRateLimit((int) $limit);
