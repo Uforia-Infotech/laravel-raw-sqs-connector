@@ -31,12 +31,6 @@ parameters:
 			path: src/RawSqsConnector.php
 
 		-
-			message: '#^Parameter \#1 \$rateLimit of method AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue\:\:setRateLimit\(\) expects int, mixed given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/RawSqsConnector.php
-
-		-
 			message: '#^Parameter \#2 \$default of class AgentSoftware\\LaravelRawSqsConnector\\RawSqsQueue constructor expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
