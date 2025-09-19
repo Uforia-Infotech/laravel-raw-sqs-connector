@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
+use UforiaInfotech\LaravelRawSqsConnector\RawSqsQueue;
 use Aws\Sqs\SqsClient;
 use Illuminate\Cache\RateLimiter;
 use Illuminate\Container\Container;
