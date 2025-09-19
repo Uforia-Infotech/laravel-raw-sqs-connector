@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AgentSoftware\LaravelRawSqsConnector;
+namespace UforiaInfotech\LaravelRawSqsConnector;
 
 use Aws\Sqs\SqsClient;
 use Illuminate\Contracts\Queue\Queue;
