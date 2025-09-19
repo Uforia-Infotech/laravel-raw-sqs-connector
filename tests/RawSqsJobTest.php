@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use AgentSoftware\LaravelRawSqsConnector\RawSqsJob;
+use UforiaInfotech\LaravelRawSqsConnector\RawSqsJob;
 use PHPUnit\Framework\TestCase;
 
 class RawSqsJobTest extends TestCase
