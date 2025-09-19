@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AgentSoftware\LaravelRawSqsConnector;
+namespace UforiaInfotech\LaravelRawSqsConnector;
 
 use Aws\Result;
 use Illuminate\Cache\RateLimiter;
