@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AgentSoftware\\LaravelRawSqsConnector\\": "src/"
+            "uforia-infotech\\LaravelRawSqsConnector\\": "src/"
         }
     },
     "autoload-dev": {
@@ -48,7 +48,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "AgentSoftware\\LaravelRawSqsConnector\\RawSqsServiceProvider"
+                "uforia-infotech\\LaravelRawSqsConnector\\RawSqsServiceProvider"
             ]
         }
     }
