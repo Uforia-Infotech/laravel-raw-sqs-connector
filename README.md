@@ -2,11 +2,6 @@
 
 Forked from original but now deleted Repo by PrimitiveSence
 
-[![Build Status](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector.svg?branch=master)](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector)
-[![Maintainability](https://api.codeclimate.com/v1/badges/079c45048f9e349e67bb/maintainability)](https://codeclimate.com/github/primitivesense/laravel-raw-sqs-connector/maintainability)
-[![Latest Stable Version](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/version)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
-[![Total Downloads](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/downloads)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
-[![License](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/license)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
 
 ## About
 The purpose of this package is to allow you to consume raw messages produced outside of Laravel from AWS SQS to then be handled natively within Laravel's Queue and Job system. 
@@ -30,7 +25,7 @@ This library was originally built to allow the submission of jobs from AWS Lambd
 To install:
 
 ```
-composer require agentsoftware/laravel-raw-sqs-connector
+composer require UforiaInfotech/laravel-raw-sqs-connector
 ```
 
 ## How to use
@@ -40,7 +35,7 @@ Add the Service Provider into `config/app.php` like so:
 ```
 'providers' => [
     '...',
-    AgentSoftware\LaravelRawSqsConnector\RawSqsServiceProvider::class,
+    UforiaInfotech\LaravelRawSqsConnector\RawSqsServiceProvider::class,
 ];
 ```
 
@@ -51,7 +46,7 @@ Create a new job like so:
 
 namespace App\Jobs;
 
-use PrimitiveSense\LaravelRawSqsConnector\RawSqsJob;
+use UforiaInfotech\LaravelRawSqsConnector\RawSqsJob;
 
 class ExampleRawSqsJob extends RawSqsJob
 {
