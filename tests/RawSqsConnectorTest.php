@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use AgentSoftware\LaravelRawSqsConnector\RawSqsConnector;
-use AgentSoftware\LaravelRawSqsConnector\RawSqsQueue;
+use UforiaInfotech\LaravelRawSqsConnector\RawSqsConnector;
+use UforiaInfotech\LaravelRawSqsConnector\RawSqsQueue;
 use PHPUnit\Framework\TestCase;
 use Tests\Support\TestJobClass;
 
