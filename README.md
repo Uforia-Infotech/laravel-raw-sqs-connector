@@ -1,5 +1,7 @@
 # Laravel Raw SQS Connector
 
+Forked from original but now deleted Repo by PrimitiveSence
+
 [![Build Status](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector.svg?branch=master)](https://travis-ci.org/primitivesense/laravel-raw-sqs-connector)
 [![Maintainability](https://api.codeclimate.com/v1/badges/079c45048f9e349e67bb/maintainability)](https://codeclimate.com/github/primitivesense/laravel-raw-sqs-connector/maintainability)
 [![Latest Stable Version](https://poser.pugx.org/primitivesense/laravel-raw-sqs-connector/version)](https://packagist.org/packages/primitivesense/laravel-raw-sqs-connector)
