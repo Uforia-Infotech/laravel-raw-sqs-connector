@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AgentSoftware\LaravelRawSqsConnector;
+namespace UforiaInfotech\LaravelRawSqsConnector;
 
 use Illuminate\Queue\QueueManager;
 use Illuminate\Support\ServiceProvider;
